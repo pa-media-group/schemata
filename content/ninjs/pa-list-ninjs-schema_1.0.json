@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://schema.pressassociation.io/content/ninjs/pa-list-ninjs-schema_1.0.json#",
+  "title": "PA List IPTC ninjs - News in JSON - version 1.0.",
+  "description": "A list wrapper around the Press Association (PA) modification of IPTC's Ninjs Schema.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["total", "limit", "offset", "item"],
+  "properties": {
+    "total": {
+      "description": "The total number of news objects across all pages of the list.",
+      "type": "number"
+    },
+    "limit": {
+      "description": "The number of news objects to return in 1 page of the list.",
+      "type": "number"
+    },
+    "offset": {
+      "description": "The number of news objects to skip over before returning this page of the list.",
+      "type": "number"
+    },
+    "item": {
+      "description": "The new objects returned in this page of the list.",
+      "type": "array",
+      "items": { "$ref": "http://schema.pressassociation.io/content/ninjs/pa-ninjs-schema_1.0.json#" }
+    }
+  },
+  "links": {
+    "description": "HATEOAS style links related to the list of news object.",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "rel": {
+        "description": "The relationship of the link to the list of news object.",
+        "type": "string"
+      },
+      "href": {
+        "description": "The URL for accessing the link.",
+        "type": "string",
+        "format": "uri"
+      }
+    }
+  }
+}
