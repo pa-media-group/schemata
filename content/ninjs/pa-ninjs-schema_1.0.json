@@ -350,11 +350,11 @@
               "properties": {
                 "x": {
                   "description": "The x co-ordinate of the point of interest.",
-									"type": "number"
+                  "type": "number"
                 },
                 "y": {
                   "description": "The y co-ordinate of the point of interest.",
-									"type": "number"
+                  "type": "number"
                 }
               }
             },
