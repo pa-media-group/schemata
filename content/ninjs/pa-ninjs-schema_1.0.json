@@ -343,6 +343,25 @@
             "sizeinbytes": {
               "description": "The size of the rendition resource in bytes",
               "type": "number"
+            },
+            "poi": {
+              "description": "The point of interest of the rendition.",
+              "type": "object",
+              "properties": {
+                "x": {
+                  "description": "The x co-ordinate of the point of interest.",
+                  "type": "number"
+                },
+                "y": {
+                  "description": "The y co-ordinate of the point of interest.",
+                  "type": "number"
+                }
+              }
+            },
+            "orientation": {
+              "type": "string",
+              "description": "The orientation of the rendition",
+              "enum": ["landscape", "portrait", "square"]
             }
           }
         }
