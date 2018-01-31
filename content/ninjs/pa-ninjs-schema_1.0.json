@@ -309,6 +309,28 @@
       "description": "The name of the location from which the content originates.",
       "type": "string"
     },
+    "dates": {
+      "description": "All dates pertaining to the event (or the event of the item), in particular the start date and a duration or a set end date",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["start"],
+      "properties": {
+        "start": {
+          "description": "The date the event commences.",
+          "type": "string",
+          "format": "date-time"
+        },
+        "end": {
+          "description": "The date the event ends.",
+          "type": "string",
+          "format": "date-time"
+        },
+        "duration": {
+          "description": "The period the event will last.",
+          "type": "string"
+        }
+      }
+    },
     "renditions": {
       "description": "Wrapper for different renditions of non-textual content of the news object",
       "type": "object",
