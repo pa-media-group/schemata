@@ -24,7 +24,7 @@
     "type": {
       "description": "The generic news type of this news object",
       "type": "string",
-      "enum": ["text", "audio", "video", "picture", "graphic", "composite", "social"]
+      "enum": ["text", "audio", "video", "picture", "graphic", "composite", "social", "quiz"]
     },
     "mimetype": {
       "description": "A MIME type which applies to this news object",
