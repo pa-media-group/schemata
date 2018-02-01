@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "http://schema.pressassociation.io/content/ninjs/pa-list-ninjs-schema_1.0.json#",
-  "title": "PA List IPTC ninjs - News in JSON - version 1.0.",
+  "id": "http://schema.pressassociation.io/content/ninjs/pa-list-ninjs-schema_1.1.json#",
+  "title": "PA List IPTC ninjs - News in JSON - version 1.1",
   "description": "A list wrapper around the Press Association (PA) modification of IPTC's Ninjs Schema.",
   "type": "object",
   "additionalProperties": false,
@@ -22,7 +22,7 @@
     "item": {
       "description": "The new objects returned in this page of the list.",
       "type": "array",
-      "items": { "$ref": "http://schema.pressassociation.io/content/ninjs/pa-ninjs-schema_1.0.json#" }
+      "items": { "$ref": "http://schema.pressassociation.io/content/ninjs/pa-ninjs-schema_1.1.json#" }
     }
   },
   "links": {
