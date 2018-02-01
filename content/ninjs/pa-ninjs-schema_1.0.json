@@ -316,17 +316,17 @@
       "required": ["start"],
       "properties": {
         "start": {
-          "description": "The date the event commences.",
+          "description": "The date and time the event commences.",
           "type": "string",
           "format": "date-time"
         },
         "end": {
-          "description": "The date the event ends.",
+          "description": "The date and time the event ends.",
           "type": "string",
           "format": "date-time"
         },
         "duration": {
-          "description": "The period the event will last.",
+          "description": "The period the event will last, expressed as a duration, e.g. P1M, P1D, PT24H",
           "type": "string"
         }
       }
