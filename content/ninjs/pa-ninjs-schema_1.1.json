@@ -326,8 +326,9 @@
           "format": "date-time"
         },
         "duration": {
-          "description": "The period the event will last, expressed as a duration, e.g. P1M, P1D, PT24H",
-          "type": "string"
+          "description": "The period the event will last, expressed as a duration where the highest level is a day, e.g. P2D, PT10H, PT15M",
+          "type": "string",
+          "pattern": "P(?!$)(\\d+D)?(T(?=\\d)(\\d+H)?(\\d+M)?(\\d+\\.)?(\\d+S)?)?"
         }
       }
     },
