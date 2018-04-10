@@ -1,0 +1,106 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://schema.pressassociation.io/content/ninjs/pa-list-ninjs-schema_1.2.json#",
+  "title": "PA List IPTC ninjs - News in JSON - version 1.1",
+  "description": "A list wrapper around the Press Association (PA) modification of IPTC's Ninjs Schema.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["total", "limit", "offset", "item"],
+  "properties": {
+    "total": {
+      "description": "The total number of news objects across all pages of the list.",
+      "type": "number"
+    },
+    "limit": {
+      "description": "The number of news objects to return in 1 page of the list.",
+      "type": "number"
+    },
+    "offset": {
+      "description": "The number of news objects to skip over before returning this page of the list.",
+      "type": "number"
+    },
+    "item": {
+      "description": "The new objects returned in this page of the list.",
+      "type": "array",
+      "items": { "$ref": "http://schema.pressassociation.io/content/ninjs/pa-ninjs-schema_1.1.json#" }
+    },
+    "events": {
+      "description": "Details of events referenced in the Item list.",
+      "type": "object",
+      "patternProperties": {
+        "*": {
+          "description": "An entry for an event. The key is the event's uri.",
+          "type": "object",
+          "patternProperties": {
+            "*": {
+              "description": "An entry for stats about a items linked to an event of a certain profile. The key is the value of the profile.",
+              "type": "object",
+              "patternProperties": {
+                "*": {
+                  "description": "An entry for stats about a items linked to an event of a certain type. The key is the value of the type.",
+                  "type": "object",
+                  "properties": {
+                		"total" : {
+                			"description" : "The total number of items linked to an event for the given profile & type.",
+                			"type" : "number"
+                		},
+                    "links": {
+                      "description": "HATEOAS style links related to the list of news object.",
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "rel": {
+                          "description": "The relationship of the link to the list of news object.",
+                          "type": "string"
+                        },
+                        "href": {
+                          "description": "The URL for accessing the link.",
+                          "type": "string",
+                          "format": "uri"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "properties": {
+        "links": {
+          "description": "HATEOAS style links related to the list of news object.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "rel": {
+              "description": "The relationship of the link to the list of news object.",
+              "type": "string"
+            },
+            "href": {
+              "description": "The URL for accessing the link.",
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        }
+      }
+    }
+  },
+  "links": {
+    "description": "HATEOAS style links related to the list of news object.",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "rel": {
+        "description": "The relationship of the link to the list of news object.",
+        "type": "string"
+      },
+      "href": {
+        "description": "The URL for accessing the link.",
+        "type": "string",
+        "format": "uri"
+      }
+    }
+  }
+}
