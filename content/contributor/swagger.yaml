@@ -1,0 +1,329 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Content Contributor API
+  description: An API for third party providers to contribute content into the Press Association's Content API.
+  termsOfService: 'http://swagger.io/terms/'
+  contact:
+    name: Press Association
+    email: apiteam@swagger.io
+    url: 'https://www.pressassociation.com'
+  license:
+    name: Apache 2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+host: content.contributor.api.pressassociation.io
+basePath: /v1
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /auth:
+    post:
+      description: Authenticate to access the Content Contributor API
+      parameters:
+        - name: auth
+          in: body
+          description: A users username and password to attempt an authentication request.
+          required: true
+          schema:
+            type: object
+            required:
+              - username
+              - password
+            properties:
+              username:
+                type: string
+                description: The username provided to the contributor.
+              password:
+                type: string
+                description: The password for the given username. This is provided to the contributor during onboarding.
+      responses:
+        '200':
+          description: A valid login request.
+          schema:
+            type: object
+            required:
+              - token
+            properties:
+              token:
+                type: string
+                description: The generate token to be used in the Authorization header for the ingest endpoint.
+        '400':
+          description: The given input is invalid.
+        '401':
+          description: The given username and/or password does not pass authentication.
+        '406':
+          description: A non-json format was submitted.
+        
+
+  /ingest:
+    post:
+      description: Process and ingest an item.
+      parameters:
+        - name: item
+          in: body
+          description: An item to ingest.
+          required: true
+          schema:
+            $ref: '#/definitions/Item'
+        - name: authorization
+          in: header
+          description: an authorization header
+          required: true
+          type: string
+      responses:
+        '202':
+          description: Accepted for processing.
+        '400':
+          description: The given input is invalid.
+        '403':
+          description: Request was made with a missing or invalid Bearer token.
+        '406':
+          description: A non-json format was submitted.
+definitions:
+  Item:
+    type: object
+    required:
+      - source_id
+      - operation
+      - item
+    properties:
+      source_id:
+        type: string
+        description: The id of this item in the provider's source system.
+      operation:
+        type: string
+        description: The operation that the system should perform on the given item.
+        default: create
+        enum:
+          - create
+          - update
+          - delete
+      format:
+        type: string
+        description: The format of the supplied item. Currently `simple` is the only supported value.
+        default: simple
+        enum:
+          - simple
+      item:
+        $ref: '#/definitions/Simple'
+  Simple:
+    type: object
+    description: An object for modelling an item to be ingested. The item can model a textual or image item and the required fields depend on which type is used.
+    properties:
+      abstract:
+        description: A short description of the article, expressed in a html fragment. If the contents is just 1 sentence, then the wrapping <p> can be ignored.
+        type: string
+      body:
+        description: The main body contents of the item, expressed in a html fragment.
+        type: string
+      byline:
+        description: A description of the person or organisation that wrote the item.
+        type: string
+      created:
+        description: A datetime (expressed in the ISO 8601 format) to represent when the item was first created. If this is not set, the ingestion system will insert the datetime that it first processes the item.
+        type: string
+        format: datetime
+      updated:
+        description: A datetime (expressed in the ISO 8601 format) to represent when the item was last updated. If this is not set, the ingestion system will insert the datetime that it processes the item.
+        type: string
+        format: datetime
+      headline:
+        description: An editorial headline for the item.
+        type: string
+      keywords:
+        description: A list of PA editorial keywords for the item. Keywords are freetext and may contain spaces. There should be at most 2, where the 2nd keyword is used to denoate a sidebar to another item.
+        type: array
+        items:
+          type: string
+      service:
+        description: A list of services (distribution channels) that the item should appear on. If this isn't set a default will be selected based on the Topics given.
+        type: array
+        items:
+          type: string
+          enum:
+            - paservice:news:uk
+            - paservice:news:world
+            - paservice:news:ireland
+            - paservice:news:scotland
+            - paservice:entertainment:uk
+            - paservice:entertainment:world
+            - paservice:entertainment:tv
+            - paservice:entertainment:soaps
+            - paservice:entertainment:movies
+            - paservice:entertainment:music
+            - paservice:lifestyle:health-wellbeing
+            - paservice:lifestyle:travel
+            - paservice:lifestyle:fashion-beauty
+            - paservice:lifestyle:food-drink
+            - paservice:lifestyle:life
+            - paservice:finance:city
+            - paservice:finance:personal-finance
+            - paservice:sci-tech:science
+            - paservice:sci-tech:technology
+            - paservice:motoring:news
+            - paservice:motoring:features
+            - paservice:motoring:road-tests
+            - paservice:sport:football
+            - paservice:sport:uk
+            - paservice:sport:world
+            - paservice:sport:racing
+      tags:
+        description: A list of tags to apply to the item. The can either be SEO style tags or a list of key people, organisations and locations mentioned in the item.
+        type: array
+        items:
+          type: string
+      topics:
+        description: A list of IPTC media topics for the item. Topics is a curated list, and the entries must match an entry of the list. There can be any number of topics, but the first topic in the array will be treated as the primary topic.
+        type: array
+        items:
+          type: string
+          enum:
+            - topic:iptc:medtop:01000000
+            - topic:iptc:medtop:04000000
+            - topic:iptc:medtop:05000000
+            - topic:iptc:medtop:06000000
+            - topic:iptc:medtop:07000000
+            - topic:iptc:medtop:11000000
+            - topic:iptc:medtop:12000000
+            - topic:iptc:medtop:13000000
+            - topic:iptc:medtop:14000000
+            - topic:iptc:medtop:15000000
+            - topic:iptc:medtop:17000000
+            - topic:iptc:medtop:20000002
+            - topic:iptc:medtop:20000005
+            - topic:iptc:medtop:20000011
+            - topic:iptc:medtop:20000013
+            - topic:iptc:medtop:20000018
+            - topic:iptc:medtop:20000044
+            - topic:iptc:medtop:20000045
+            - topic:iptc:medtop:20000046
+            - topic:iptc:medtop:20000047
+            - topic:iptc:medtop:20000048
+            - topic:iptc:medtop:20000051
+            - topic:iptc:medtop:20000053
+            - topic:iptc:medtop:20000062
+            - topic:iptc:medtop:20000066
+            - topic:iptc:medtop:20000082
+            - topic:iptc:medtop:20000107
+            - topic:iptc:medtop:20000121
+            - topic:iptc:medtop:20000131
+            - topic:iptc:medtop:20000132
+            - topic:iptc:medtop:20000133
+            - topic:iptc:medtop:20000137
+            - topic:iptc:medtop:20000139
+            - topic:iptc:medtop:20000140
+            - topic:iptc:medtop:20000150
+            - topic:iptc:medtop:20000153
+            - topic:iptc:medtop:20000168
+            - topic:iptc:medtop:20000210
+            - topic:iptc:medtop:20000220
+            - topic:iptc:medtop:20000235
+            - topic:iptc:medtop:20000244
+            - topic:iptc:medtop:20000256
+            - topic:iptc:medtop:20000277
+            - topic:iptc:medtop:20000285
+            - topic:iptc:medtop:20000322
+            - topic:iptc:medtop:20000337
+            - topic:iptc:medtop:20000338
+            - topic:iptc:medtop:20000340
+            - topic:iptc:medtop:20000344
+            - topic:iptc:medtop:20000351
+            - topic:iptc:medtop:20000400
+            - topic:iptc:medtop:20000405
+            - topic:iptc:medtop:20000437
+            - topic:iptc:medtop:20000441
+            - topic:iptc:medtop:20000475
+            - topic:iptc:medtop:20000500
+            - topic:iptc:medtop:20000505
+            - topic:iptc:medtop:20000506
+            - topic:iptc:medtop:20000509
+            - topic:iptc:medtop:20000540
+            - topic:iptc:medtop:20000546
+            - topic:iptc:medtop:20000549
+            - topic:iptc:medtop:20000551
+            - topic:iptc:medtop:20000563
+            - topic:iptc:medtop:20000564
+            - topic:iptc:medtop:20000565
+            - topic:iptc:medtop:20000566
+            - topic:iptc:medtop:20000568
+            - topic:iptc:medtop:20000570
+            - topic:iptc:medtop:20000574
+            - topic:iptc:medtop:20000584
+            - topic:iptc:medtop:20000598
+            - topic:iptc:medtop:20000607
+            - topic:iptc:medtop:20000616
+            - topic:iptc:medtop:20000617
+            - topic:iptc:medtop:20000639
+            - topic:iptc:medtop:20000691
+            - topic:iptc:medtop:20000747
+            - topic:iptc:medtop:20000756
+            - topic:iptc:medtop:20000780
+            - topic:iptc:medtop:20000786
+            - topic:iptc:medtop:20000787
+            - topic:iptc:medtop:20000788
+            - topic:iptc:medtop:20000818
+            - topic:iptc:medtop:20001143
+            - topic:iptc:medtop:20001177
+            - topic:iptc:medtop:20001178
+            - topic:iptc:medtop:20001181
+      type:
+        description: A type to denote what the item is representing. This will inform the system how to interpet it.
+        type: string
+        default: text
+        enum:
+          - text
+          - picture
+          - graphic
+      media:
+        type: array
+        description: An array to contain the media involved in the item. This allows future expansion into items that have multiple media attached.
+        items:
+          type: object
+          description: A field for expressing media involved in the item.
+          required:
+            - type
+            - renditions
+          properties:
+            type:
+              description: A type to denote what the media item is representing. This will inform the system how to interpet it.
+              type: string
+              enum:
+                - picture
+                - graphic
+            alt_text:
+              description: A piece of text that should be shown in place of a media item if the media item doesn't render or the user is using a screen reader.
+              type: string
+            caption:
+              description: A brief explanation of what the media item is capturing.
+              type: string
+            credit:
+              description: The person or organisation that should be credited with creating the media item.
+              type: string
+            copyrightholder:
+              description: The person or organisation that owns the copyright of the media item.
+              type: string
+            copyrightnotice:
+              description: Any necessary notices issued by the person or organisation that owns the copyright of the media item.
+              type: string
+            usageterms:
+              description: Any special usage terms around the usage of this media item.
+              type: string
+            headline:
+              description: An editorial headline for the media item.
+              type: string
+            renditions:
+              description: The different renditions crops of the media item.
+              type: object
+              required:
+                - original
+              properties:
+                original:
+                  description: A url that provides the original rendition of the media item.
+                  type: string
+                16x9:
+                  description: A url that provides the widescreen rendition of the media item.
+                  type: string

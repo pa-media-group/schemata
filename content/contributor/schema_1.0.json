@@ -1,0 +1,278 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "id": "http://schema.pressassociation.io/content/contributor_1.0.json#",
+  "title": "Content Contributor API - Ingestion Format - version 1.0",
+  "description": "An object to model an item that is passed to the Content Contributor API for ingestion. The format of the item filed may support multiple schemas in the future, but at the moment only supports the `simple` format.",
+  "type": "object",
+  "additionalProperties": false,
+  "definitions": {
+    "simple": {
+      "type": "object",
+      "description": "An object for modelling an item to be ingested. The item can model a textual or image item and the required fields depend on which type is used.",
+      "required": ["keywords", "topics", "type"],
+      "properties": {
+        "abstract": {
+          "type": "string",
+          "description": "A short description of the article, expressed in a html fragment. If the contents is just 1 sentence, then the wrapping <p> can be ignored."
+        },
+        "body": {
+          "type": "string",
+          "description": "The main body contents of the item, expressed in a html fragment."
+        },
+        "byline": {
+          "type": "string",
+          "description": "A description of the person or organisation that wrote the item."
+        },
+        "created": {
+          "type": "string",
+          "description": "A datetime (expressed in the ISO 8601 format) to represent when the item was first created. If this is not set, the ingestion system will insert the datetime that it first processes the item.",
+          "format": "datetime"
+        },
+        "updated": {
+          "type": "string",
+          "description": "A datetime (expressed in the ISO 8601 format) to represent when the item was last updated. If this is not set, the ingestion system will insert the datetime that it processes the item.",
+          "format": "datetime"
+        },
+        "headline": {
+          "type": "string",
+          "description": "An editorial headline for the item."
+        },
+        "keywords": {
+          "type": "array",
+          "description": "A list of PA editorial keywords for the item. Keywords are freetext and may contain spaces. There should be at most 2, where the 2nd keyword is used to denoate a sidebar to another item.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "services": {
+          "type": "array",
+          "description": "A list of services (distribution channels) that the item should appear on. If this isn't set a default will be selected based on the Topics given.",
+          "items": {
+            "type": "string",
+            "enum": [
+              "paservice:news:uk",
+              "paservice:news:world",
+              "paservice:news:ireland",
+              "paservice:news:scotland",
+              "paservice:entertainment:uk",
+              "paservice:entertainment:world",
+              "paservice:entertainment:tv",
+              "paservice:entertainment:soaps",
+              "paservice:entertainment:movies",
+              "paservice:entertainment:music",
+              "paservice:lifestyle:health-wellbeing",
+              "paservice:lifestyle:travel",
+              "paservice:lifestyle:fashion-beauty",
+              "paservice:lifestyle:food-drink",
+              "paservice:lifestyle:life",
+              "paservice:finance:city",
+              "paservice:finance:personal-finance",
+              "paservice:sci-tech:science",
+              "paservice:sci-tech:technology",
+              "paservice:motoring:news",
+              "paservice:motoring:features",
+              "paservice:motoring:road-tests",
+              "paservice:sport:football",
+              "paservice:sport:uk",
+              "paservice:sport:world",
+              "paservice:sport:racing"
+            ]
+          }
+        },
+        "tags": {
+          "type": "array",
+          "description": "A list of tags to apply to the item. The can either be SEO style tags or a list of key people, organisations and locations mentioned in the item.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "topics": {
+          "type": "array",
+          "description": "A list of IPTC media topics for the item. Topics is a curated list, and the entries must match an entry of the list. There can be any number of topics, but the first topic in the array will be treated as the primary topic.",
+          "items": {
+            "type": "string",
+            "enum": [
+              "topic:iptc:medtop:01000000",
+              "topic:iptc:medtop:04000000",
+              "topic:iptc:medtop:05000000",
+              "topic:iptc:medtop:06000000",
+              "topic:iptc:medtop:07000000",
+              "topic:iptc:medtop:11000000",
+              "topic:iptc:medtop:12000000",
+              "topic:iptc:medtop:13000000",
+              "topic:iptc:medtop:14000000",
+              "topic:iptc:medtop:15000000",
+              "topic:iptc:medtop:17000000",
+              "topic:iptc:medtop:20000002",
+              "topic:iptc:medtop:20000005",
+              "topic:iptc:medtop:20000011",
+              "topic:iptc:medtop:20000013",
+              "topic:iptc:medtop:20000018",
+              "topic:iptc:medtop:20000044",
+              "topic:iptc:medtop:20000045",
+              "topic:iptc:medtop:20000046",
+              "topic:iptc:medtop:20000047",
+              "topic:iptc:medtop:20000048",
+              "topic:iptc:medtop:20000051",
+              "topic:iptc:medtop:20000053",
+              "topic:iptc:medtop:20000062",
+              "topic:iptc:medtop:20000066",
+              "topic:iptc:medtop:20000082",
+              "topic:iptc:medtop:20000107",
+              "topic:iptc:medtop:20000121",
+              "topic:iptc:medtop:20000131",
+              "topic:iptc:medtop:20000132",
+              "topic:iptc:medtop:20000133",
+              "topic:iptc:medtop:20000137",
+              "topic:iptc:medtop:20000139",
+              "topic:iptc:medtop:20000140",
+              "topic:iptc:medtop:20000150",
+              "topic:iptc:medtop:20000153",
+              "topic:iptc:medtop:20000168",
+              "topic:iptc:medtop:20000210",
+              "topic:iptc:medtop:20000220",
+              "topic:iptc:medtop:20000235",
+              "topic:iptc:medtop:20000244",
+              "topic:iptc:medtop:20000256",
+              "topic:iptc:medtop:20000277",
+              "topic:iptc:medtop:20000285",
+              "topic:iptc:medtop:20000322",
+              "topic:iptc:medtop:20000337",
+              "topic:iptc:medtop:20000338",
+              "topic:iptc:medtop:20000340",
+              "topic:iptc:medtop:20000344",
+              "topic:iptc:medtop:20000351",
+              "topic:iptc:medtop:20000400",
+              "topic:iptc:medtop:20000405",
+              "topic:iptc:medtop:20000437",
+              "topic:iptc:medtop:20000441",
+              "topic:iptc:medtop:20000475",
+              "topic:iptc:medtop:20000500",
+              "topic:iptc:medtop:20000505",
+              "topic:iptc:medtop:20000506",
+              "topic:iptc:medtop:20000509",
+              "topic:iptc:medtop:20000540",
+              "topic:iptc:medtop:20000546",
+              "topic:iptc:medtop:20000549",
+              "topic:iptc:medtop:20000551",
+              "topic:iptc:medtop:20000563",
+              "topic:iptc:medtop:20000564",
+              "topic:iptc:medtop:20000565",
+              "topic:iptc:medtop:20000566",
+              "topic:iptc:medtop:20000568",
+              "topic:iptc:medtop:20000570",
+              "topic:iptc:medtop:20000574",
+              "topic:iptc:medtop:20000584",
+              "topic:iptc:medtop:20000598",
+              "topic:iptc:medtop:20000607",
+              "topic:iptc:medtop:20000616",
+              "topic:iptc:medtop:20000617",
+              "topic:iptc:medtop:20000639",
+              "topic:iptc:medtop:20000691",
+              "topic:iptc:medtop:20000747",
+              "topic:iptc:medtop:20000756",
+              "topic:iptc:medtop:20000780",
+              "topic:iptc:medtop:20000786",
+              "topic:iptc:medtop:20000787",
+              "topic:iptc:medtop:20000788",
+              "topic:iptc:medtop:20000818",
+              "topic:iptc:medtop:20001143",
+              "topic:iptc:medtop:20001177",
+              "topic:iptc:medtop:20001178",
+              "topic:iptc:medtop:20001181"
+            ]
+          }
+        },
+        "type": {
+          "type": "string",
+          "description": "A type to denote what the item is representing. This will inform the system how to interpet it.",
+          "default": "text",
+          "enum": ["text", "picture", "graphic"]
+        },
+        "media": {
+          "type": "array",
+          "description": "An array to contain the media involved in the item. This allows future expansion into items that have multiple media attached.",
+          "items": {
+            "type": "object",
+            "description": "A field for expressing media involved in the item.",
+            "required": ["type", "renditions"],
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "A type to denote what the media item is representing. This will inform the system how to interpet it.",
+                "enum": ["picture", "graphic"]
+              },
+              "alt_text": {
+                "type": "string",
+                "description": "A piece of text that should be shown in place of a media item if the media item doesn't render or the user is using a screen reader."
+              },
+              "caption": {
+                "type": "string",
+                "description": "A brief explanation of what the media item is capturing."
+              },
+              "credit": {
+                "type": "string",
+                "description": "The person or organisation that should be credited with creating the media item."
+              },
+              "copyrightholder": {
+                "type": "string",
+                "description": "The person or organisation that owns the copyright of the media item."
+              },
+              "copyrightnotice": {
+                "type": "string",
+                "description": "Any necessary notices issued by the person or organisation that owns the copyright of the media item."
+              },
+              "usageterms": {
+                "type": "string",
+                "description": "Any special usage terms around the usage of this media item."
+              },
+              "headline" : {
+                "type": "string",
+                "description": "An editorial headline for the media item."
+              },
+              "renditions": {
+                "type": "object",
+                "description": "The different renditions crops of the media item.",
+                "required": ["original"],
+                "properties":{
+                  "original": {
+                    "type": "string",
+                    "description": "A url that provides the original rendition of the media item."
+                  },
+                  "16x9": {
+                    "type": "string", 
+                    "description": "A url that provides the widescreen rendition of the media item."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": ["source_id", "operation", "item"],
+  "properties": {
+    "source_id": {
+      "type": "string",
+      "description": "The id of this item in the provider's source system."
+    },
+    "operation": {
+      "type": "string",
+      "description": "The operation that the system should perform on the given item.",
+      "default": "create",
+      "enum": ["create", "update", "delete"]
+    },
+    "format": {
+      "type": "string",
+      "description": "The format of the supplied item. Currently `simple` is the only supported value.",
+      "default": "simple",
+      "enum": ["simple"]
+    },
+    "item": {
+      "allOf": [
+        { "$ref": "#/definitions/simple" }
+      ]
+    }
+  }
+}
