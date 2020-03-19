@@ -1,0 +1,205 @@
+{
+  "title": "Content Domain Exchange",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The identifier for this notification."
+    },
+    "type": {
+      "type": "string",
+      "description": "The type of entity being referred to by this notification."
+    },
+    "timestamp": {
+      "type": "string",
+      "description": "The date and time when the notification was sent.",
+      "format": "date-time"
+    },
+    "key": {
+      "type": "string",
+      "description": "The key for the notification, used for routing."
+    },
+    "domain": {
+      "type": "string",
+      "description": "The area of the Press Association that this notification relates to."
+    },
+    "operation": {
+      "type": "string",
+      "description": "The type of operation that caused the notification.",
+      "enum": ["create", "update", "delete"]
+    },
+    "entity": {
+      "type": "object",
+      "description": "The entity that the Notification is about.",
+      "properties": {
+        "uri": {
+          "type": "string",
+          "description": "The identifier for the entity that the Notification is about."
+        },
+        "version": {
+          "type": "string",
+          "description": "The version of the entity that the Notification is about."
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of the entity that the Notification is about."
+        },
+        "profile": {
+          "type": "string",
+          "description": "The profile of the entity that the Notification is about."
+        },
+        "firstcreated": {
+          "type": "string",
+          "description": "The date and time when the first version of the entity that the Notification is about was created.",
+          "format": "date-time"
+        },
+        "versioncreated": {
+          "type": "string",
+          "description": "The date and time when this version of the entity that the Notification is about was created.",
+          "format": "date-time"
+        },
+        "pubstatus": {
+          "type": "string",
+          "description": "The publishing status of the entity that the Notification is about.",
+          "enum": ["usable", "withheld", "canceled"]
+        },
+        "subject": {
+          "type": "array",
+          "description": "A piece of metadata with a relationship to the entity that the Notification is about.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "description": "The code for the subject."
+              }
+            }
+          }
+        },
+        "event": {
+          "type": "array",
+          "description": "Something which happens in a planned or unplanned manner and is related to this diary event.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "The name of the event."
+              },
+              "rel": {
+                "type": "string",
+                "description": "The relationship of the content of the news object to the event."
+              },
+              "scheme": {
+                "type": "string",
+                "description": "The identifier of a scheme (= controlled vocabulary) which includes a code for the event."
+              },
+              "code": {
+                "type": "string",
+                "description": "The code for the event in a scheme (= controlled vocabulary) which is identified by the scheme property."
+              },
+              "profile": {
+                "type": "string",
+                "description": "An identifier for the kind of content of this event."
+              }
+            }
+          }
+        },
+        "address": {
+          "type": "object",
+          "properties": {
+            "address": {
+              "type": "string",
+              "description": "The address that diary event is located."
+            },
+            "place": {
+              "type": "string",
+              "description": "The place that diary event is located."
+            },
+            "postcode": {
+              "type": "string",
+              "description": "The postcode that diary event is located."
+            }
+          }
+        },
+        "object": {
+          "type": "array",
+          "description": "A concept with a relationship to the diary event.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "The name of the event."
+              },
+              "rel": {
+                "type": "string",
+                "description": "The relationship of the content of the news object to the event."
+              },
+              "scheme": {
+                "type": "string",
+                "description": "The identifier of a scheme (= controlled vocabulary) which includes a code for the event."
+              },
+              "code": {
+                "type": "string",
+                "description": "The code for the event in a scheme (= controlled vocabulary) which is identified by the scheme property."
+              },
+              "profile": {
+                "type": "string",
+                "description": "An identifier for the kind of content of this event."
+              }
+            }
+          }
+        },
+        "headline": {
+          "type": "string",
+          "description": "A brief and snappy introduction to the diary event."
+        },
+        "description_text": {
+          "type": "string",
+          "description": "A free-form textual description of the content of the diary event."
+        },
+        "description_contact": {
+          "type": "string",
+          "description": "Details about who to contact in regards to this diary event."
+        },
+        "links": {
+          "type": "array",
+          "description": "",
+          "items": {
+            "type": "object",
+            "properties": {
+              "rel": {
+                "type": "string",
+                "description": "The relationship of the link to the diary event."
+              },
+              "href": {
+                "type": "string",
+                "description": "The address that the link points to."
+              }
+            }
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "origin": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The registered name of the Service that spawned the Notification."
+        },
+        "address": {
+          "type": "string",
+          "description": "The IP address of the Service that spawned the Notification."
+        },
+        "port": {
+          "type": "integer",
+          "description": "The port of the Service that spawned the Notification."
+        }
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": ["id", "timestamp", "key", "operation"]
+}
