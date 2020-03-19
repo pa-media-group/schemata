@@ -1,5 +1,6 @@
 {
-  "title": "Content Domain Exchange",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Domain Exchange Notification Schema",
   "type": "object",
   "properties": {
     "id": {
